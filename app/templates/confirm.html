@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Confirm Your Information</h2>
+<p>Please confirm your information below before continuing.</p>
+
+<div class="confirm-box">
+    <p><strong>Name:</strong> {{ client.name }}</p>
+    <p><strong>Phone:</strong> {{ client.phone }}</p>
+    <p><strong>Email:</strong> {{ client.email }}</p>
+    <p><strong>Address:</strong> {{ client.address }}</p>
+</div>
+
+<form action="/issue" method="get">
+    <button type="submit" class="btn">Confirm and Continue</button>
+</form>
+
+<style>
+    .confirm-box {
+        background: #f8f8f8;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 500px;
+        margin: 20px auto;
+        text-align: left;
+    }
+</style>
+{% endblock %}

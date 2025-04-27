@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Follow-Up Questions</h2>
+<p>Thanks! Please answer a few questions so our techs can better assist you.</p>
+
+<form action="/create-ticket" method="post">
+    {% for question in questions %}
+        <label><strong>{{ question }}</strong></label>
+        <textarea name="response_{{ loop.index }}" rows="3" style="width:100%; margin-bottom:10px;" required></textarea>
+    {% endfor %}
+    <button type="submit" class="btn">Submit</button>
+</form>
+{% endblock %}

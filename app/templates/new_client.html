@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Client Check-In</h2>
+<p>Please fill out your details so we can get started.</p>
+
+<form action="/new" method="post" class="checkin-form" autocomplete="on">
+    <label>Business Name (optional)</label>
+    <input type="text" name="business" placeholder="Leave blank if not applicable">
+
+    <label>First Name *</label>
+    <input type="text" name="first_name" required>
+
+    <label>Last Name *</label>
+    <input type="text" name="last_name" required>
+
+    <label>Phone Number *</label>
+    <input type="tel" name="phone" required>
+
+    <label>Email Address *</label>
+    <input type="email" name="email" required>
+
+    <label>Street Address *</label>
+    <input type="text" name="address" id="autocomplete" required placeholder="123 Main St">
+
+    <label>Address Line 2 (Apt, Suite, etc.)</label>
+    <input type="text" name="address2" placeholder="Apt, Suite, etc.">
+    
+    <label>City *</label>
+    <input type="text" name="city" id="city" required>
+
+    <label>State *</label>
+    <input type="text" name="state" id="state" required>
+
+    <label>Zip Code *</label>
+    <input type="text" name="zip" id="zip" required>
+
+    <button type="submit" class="btn">Continue</button>
+</form>
+
+<!-- Styling -->
+<style>
+    form {
+        display: inline-block;
+        text-align: left;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 500px;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+</style>
+
+<!-- Google Maps Address Autofill -->
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places"></script>
+<script>
+    const autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('autocomplete'),
+        { types: ['address'], componentRestrictions: { country: 'us' } }
+    );
+
+    autocomplete.addListener('place_changed', function () {
+        const place = autocomplete.getPlace();
+        const components = {};
+        let streetNumber = "", route = "";
+
+        place.address_components.forEach(component => {
+            const types = component.types;
+            if (types.includes("street_number")) streetNumber = component.long_name;
+            if (types.includes("route")) route = component.long_name;
+            if (types.includes("locality")) components.city = component.long_name;
+            if (types.includes("administrative_area_level_1")) components.state = component.short_name;
+            if (types.includes("postal_code")) components.zip = component.long_name;
+        });
+
+        document.getElementById('autocomplete').value = `${streetNumber} ${route}`.trim();
+        if (components.city) document.getElementById('city').value = components.city;
+        if (components.state) document.getElementById('state').value = components.state;
+        if (components.zip) document.getElementById('zip').value = components.zip;
+    });
+</script>
+{% endblock %}

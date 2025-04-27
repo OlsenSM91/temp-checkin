@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Describe the Issue</h2>
+<p>Please describe your problem in as much detail as possible.</p>
+
+<form action="/issue" method="post">
+    <textarea name="description" rows="6" style="width: 100%; padding: 12px;" required></textarea>
+    <button type="submit" class="btn">Next</button>
+</form>
+{% endblock %}

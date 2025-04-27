@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Returning Client Check-In</h2>
+<p>Please enter your phone number to look up your information.</p>
+
+{% if error %}
+<p style="color: red;">{{ error }}</p>
+{% endif %}
+
+<form action="/returning" method="post" class="checkin-form" autocomplete="on">
+    <label>Phone Number *</label>
+    <input type="tel" name="phone" required placeholder="(555) 555-5555">
+    <button type="submit" class="btn">Continue</button>
+</form>
+
+<style>
+    form {
+        display: inline-block;
+        text-align: left;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 500px;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+</style>
+{% endblock %}

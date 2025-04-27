@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Select Your Profile</h2>
+<p>We found multiple people with this phone number. Please select your name to continue:</p>
+
+<form action="/select-contact" method="post">
+    {% for c in contacts %}
+    <div style="margin-bottom: 15px;">
+        <input type="radio" name="contact_id" value="{{ c.id }}" id="c{{ c.id }}" required>
+        <label for="c{{ c.id }}">{{ c.first_name }} {{ c.last_name }} — {{ c.company.name }}</label>
+    </div>
+    {% endfor %}
+    <input type="hidden" name="company_id" id="company_id" value="">
+    <button type="submit" class="btn">Continue</button>
+</form>
+
+<script>
+    // Set company_id when a radio button is selected
+    document.querySelectorAll('input[name="contact_id"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Find the company ID matching this contact
+            {% for c in contacts %}
+            if (this.value === "{{ c.id }}") {
+                document.getElementById('company_id').value = "{{ c.company.id }}";
+                console.log("Set company_id to {{ c.company.id }} for contact {{ c.id }}");
+            }
+            {% endfor %}
+        });
+    });
+
+    // Set the first radio button checked by default
+    const firstRadio = document.querySelector('input[name="contact_id"]');
+    if (firstRadio) {
+        firstRadio.checked = true;
+        firstRadio.dispatchEvent(new Event('change'));
+    }
+</script>
+{% endblock %}

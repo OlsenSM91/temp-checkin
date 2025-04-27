@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Deposit Payment Required</h2>
+<p>Before we begin working on your issue, we require a deposit.</p>
+
+<div style="text-align: left; max-width: 500px; margin: 0 auto;">
+    <ul>
+        <li><strong>Ticket ID:</strong> {{ ticket_id }}</li>
+        <li><strong>Client:</strong> {{ client.name }}</li>
+        <li><strong>Deposit Amount:</strong> ${{ "%.2f"|format(deposit_amount) }}</li>
+        <li><strong>Processing Fee (3%):</strong> ${{ "%.2f"|format(processing_fee) }}</li>
+        <li><strong>Total:</strong> <span style="color: green;">${{ "%.2f"|format(total_amount) }}</span></li>
+    </ul>
+
+    <p><strong>Instructions:</strong></p>
+    <p>Please give the tablet to our service technician</p>
+    <p>Service Technician: Please launch <strong>Intuit GoPayment</strong> on the kiosk tablet and charge the client <strong>${{ "%.2f"|format(total_amount) }}</strong>.</p>
+    <p>In the payment notes, include:</p>
+    <ul>
+        <li><strong>Line Item One: Deposit for Ticket #{{ ticket_id }} - $100</strong></li>
+        <li><strong>Line Item Two: Processing Fee (3%) - $3</strong></li>
+    </ul>
+
+    <form action="/complete" method="post">
+        <button type="submit" class="btn">Payment Completed</button>
+    </form>
+</div>
+{% endblock %}
